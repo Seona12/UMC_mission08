@@ -4,7 +4,9 @@ import com.example.demo.domain.common.BaseEntity;
 import com.example.demo.domain.enums.Gender;
 import com.example.demo.domain.enums.MemberStatus;
 import com.example.demo.domain.enums.SocialType;
-import com.example.demo.domain.mapping.*;
+import com.example.demo.domain.mapping.MemberAgree;
+import com.example.demo.domain.mapping.MemberMission;
+import com.example.demo.domain.mapping.MemberPrefer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,15 +51,19 @@ public class Member extends BaseEntity {
 
     private Integer point;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberPrefer> memberPreferList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 }
