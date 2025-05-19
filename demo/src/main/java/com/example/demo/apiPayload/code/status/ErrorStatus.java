@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorStatus implements BaseErrorCode {
 
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "TEMP4001", "요청하신 음식 카테고리를 찾을 수 없습니다."),
+    //Feat#1
+    REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "해당 지역을 찾을 수 없습니다."),
 
     // For test
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
