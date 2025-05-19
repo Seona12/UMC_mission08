@@ -14,6 +14,9 @@ public enum ErrorStatus implements BaseErrorCode {
     //Feat#1
     REGION_NOT_FOUND(HttpStatus.BAD_REQUEST, "REGION4001", "해당 지역을 찾을 수 없습니다."),
 
+    //Feat#2 : 가게에 리뷰 추가하기
+    STORE_NOT_FOUND (HttpStatus.BAD_REQUEST, "STORE4001",  "해당 가게를 찾을 수 없습니다."),
+
     // For test
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
     // 가장 일반적인 응답
