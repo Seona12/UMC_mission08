@@ -9,12 +9,16 @@ import com.example.demo.domain.mapping.MemberMission;
 import com.example.demo.domain.mapping.MemberPrefer;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.*;
-
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -46,24 +50,21 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+    //    @Column(nullable = false, length = 50)
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberPrefer> memberPreferList = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 }

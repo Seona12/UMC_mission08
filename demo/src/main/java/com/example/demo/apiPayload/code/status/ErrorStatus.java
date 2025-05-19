@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorStatus implements BaseErrorCode {
 
+    FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "TEMP4001", "요청하신 음식 카테고리를 찾을 수 없습니다."),
+
     // For test
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
     // 가장 일반적인 응답
@@ -51,4 +53,8 @@ public enum ErrorStatus implements BaseErrorCode {
                 .build()
                 ;
     }
+
+
 }
+// errorreason -> [convert] ApiResponse
+//exceptionAdvice에서 처리.

@@ -1,5 +1,5 @@
 package com.example.demo.apiPayload;
-
+// ApiResponse : return을 통일해준다.
 import com.example.demo.apiPayload.code.BaseCode;
 import com.example.demo.apiPayload.code.status.SuccessStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,7 +22,6 @@ public class ApiResponse<T> {
 
 
     // 성공한 경우 응답 생성
-
     public static <T> ApiResponse<T> onSuccess(T result){
         return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
     }
