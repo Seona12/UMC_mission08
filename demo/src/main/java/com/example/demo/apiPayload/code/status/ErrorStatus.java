@@ -17,10 +17,14 @@ public enum ErrorStatus implements BaseErrorCode {
     //Feat#2 : 가게에 리뷰 추가하기
     STORE_NOT_FOUND (HttpStatus.BAD_REQUEST, "STORE4001",  "해당 가게를 찾을 수 없습니다."),
 
+
     //Feat#4 : 가게의 미션을 도전 중인 미션에 추가(미션 도전하기)
     MEMBER_NOT_FOUND (HttpStatus.BAD_REQUEST, "MEMBER4001",    "사용자 정보가 없습니다."),
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MISSION4001",   "해당 미션을 찾을 수 없습니다."),
     MISSION_ALREADY_IN_PROGRESS(HttpStatus.BAD_REQUEST, "MISSION4002",   "이미 진행 중인 미션입니다."),
+
+    //Feat#6 : 유저별 리뷰 페이징 조회
+
 
     // For test
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),

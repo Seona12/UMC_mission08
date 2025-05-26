@@ -2,9 +2,13 @@ package com.example.demo.web.controller;
 
 import com.example.demo.converter.ReviewConverter;
 import com.example.demo.service.ReviewService.ReviewService;
+import com.example.demo.validation.annotation.UserExists;
 import com.example.demo.web.dto.StoreResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +20,11 @@ public class UserReviewController {
     private final ReviewService reviewService;
 
     @GetMapping
-    @Operation(summary = "유저별 리뷰 페이징 조회")
+    @Operation(
+            summary = "유저별 리뷰 페이징 조회"
+    )
     public ResponseEntity<StoreResponseDTO.ReviewPreViewListDTO> getUserReviews(
-            @PathVariable Long userId,
+            @PathVariable @UserExists Long userId,
             @RequestParam(name = "page", defaultValue = "1")
             @Parameter(description = "페이지 번호 (1부터 시작)", example = "1") int page
     ) {
