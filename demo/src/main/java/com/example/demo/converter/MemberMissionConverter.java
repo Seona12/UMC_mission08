@@ -9,7 +9,10 @@ import com.example.demo.domain.mapping.MemberMission;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.MissionRepository;
 import com.example.demo.web.dto.ChallengeMissionRequest;
+import com.example.demo.web.dto.InProgressMissionDTO;
+import com.example.demo.web.dto.InProgressMissionPageDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.apiPayload.exception.GeneralException;
@@ -23,6 +26,8 @@ import com.example.demo.repository.MissionRepository;
 import com.example.demo.web.dto.ChallengeMissionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -42,6 +47,28 @@ public class MemberMissionConverter {
                 .member(member)
                 .mission(mission)
                 .status(MissionStatus.CHALLENGING)  // “진행 중” 상태
+                .build();
+    }
+    public static InProgressMissionDTO toDto(MemberMission mm) {
+        return InProgressMissionDTO.builder()
+                .missionId(mm.getMission().getId())
+                .missionSpec(mm.getMission().getMissionSpec())
+                .reward(mm.getMission().getReward())
+                .deadline(mm.getMission().getDeadline())
+                .createdAt(mm.getCreatedAt().toLocalDate())
+                .build();
+    }
+
+    public static InProgressMissionPageDTO toPageDto(Page<MemberMission> page) {
+        return InProgressMissionPageDTO.builder()
+                .missions(page.getContent().stream()
+                        .map(MemberMissionConverter::toDto)
+                        .collect(Collectors.toList()))
+                .listSize(page.getNumberOfElements())
+                .totalPage(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .isFirst(page.isFirst())
+                .isLast(page.isLast())
                 .build();
     }
 }
