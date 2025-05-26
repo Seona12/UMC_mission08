@@ -7,6 +7,7 @@ import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.StoreRepository.StoreRepository;
 import com.example.demo.web.dto.AddReviewRequest;
 import com.example.demo.web.dto.ReviewResponse;
+import com.example.demo.web.dto.StoreResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,32 @@ public class ReviewConverter {
                 .member(member)
                 .title(req.getTitle())
                 .score(req.getScore())
+                .build();
+    }
+
+
+    public static StoreResponseDTO.ReviewPreViewDTO toDto(Review r) {
+        return StoreResponseDTO.ReviewPreViewDTO.builder()
+                // Review 에는 ownerNickname 이 없으므로, 연관된 Member 에서 가져옵니다.
+                .ownerNickname(r.getMember().getName())
+                .score(r.getScore())
+                .body(r.getBody())
+                // BaseEntity 에 생성일(createdAt 또는 createdDate)이 LocalDateTime 으로 있다면 toLocalDate()
+                // 만약 이미 LocalDate 라면 바로 r.getCreatedAt() 으로 바꾸세요.
+                .createdAt(r.getCreatedAt().toLocalDate())
+                .build();
+    }
+
+    public static StoreResponseDTO.ReviewPreViewListDTO toListDto(Page<Review> page) {
+        return StoreResponseDTO.ReviewPreViewListDTO.builder()
+                .reviewList(page.getContent().stream()
+                        .map(ReviewConverter::toDto)
+                        .collect(Collectors.toList()))
+                .listSize(page.getNumberOfElements())
+                .totalPage(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .isFirst(page.isFirst())
+                .isLast(page.isLast())
                 .build();
     }
 
