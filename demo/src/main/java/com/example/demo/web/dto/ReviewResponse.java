@@ -11,10 +11,4 @@ import java.time.LocalDateTime;
 @Getter @AllArgsConstructor
 public class ReviewResponse {
     private Long reviewId;
-    private String title;
-    private String body;
-    private Float score;
-    private String storeName;
-    private String memberName;
-    private LocalDateTime createdAt;
 }
