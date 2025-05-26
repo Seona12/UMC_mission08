@@ -2,6 +2,7 @@ package com.example.demo.web.controller;
 
 import com.example.demo.converter.MemberMissionConverter;
 import com.example.demo.service.MemberMissionService.MemberMissionService;
+import com.example.demo.web.annotation.PageParam;            // 올바른 패키지 import
 import com.example.demo.web.dto.InProgressMissionPageDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Validated
 public class MemberMissionControllerURL {
+
     private final MemberMissionService service;
 
     @GetMapping
@@ -23,11 +25,11 @@ public class MemberMissionControllerURL {
             @Parameter(description = "유저 ID", example = "1", required = true)
             @PathVariable Long userId,
 
-            @Parameter(description = "페이지 번호 (1부터 시작)", example = "1")
-            @RequestParam(name = "page", defaultValue = "1") int page
+            @Parameter
+            @PageParam                                              // ← 여기만!
+            int page                                           // resolver가 1→0, 0 이하면 예외
     ) {
-        int pageIndex = Math.max(page - 1, 0);
-        var p = service.getInProgressMissionsPage(userId, pageIndex, 10);
+        var p = service.getInProgressMissionsPage(userId, page, 10);
         return ResponseEntity.ok(MemberMissionConverter.toPageDto(p));
     }
 }

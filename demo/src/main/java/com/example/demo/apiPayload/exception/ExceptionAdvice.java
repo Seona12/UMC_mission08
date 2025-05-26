@@ -3,6 +3,7 @@ package com.example.demo.apiPayload.exception;
 import com.example.demo.apiPayload.ApiResponse;
 import com.example.demo.apiPayload.code.ErrorReasonDTO;
 import com.example.demo.apiPayload.code.status.ErrorStatus;
+import com.example.demo.web.exception.PageException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,25 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
 
         return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
+    }
+
+    @ExceptionHandler(PageException.class)
+    public ResponseEntity<ErrorReasonDTO> handlePageException(PageException ex) {
+        // 공통 BAD_REQUEST 상태 정보를 가져온 뒤,
+        ErrorReasonDTO base = ErrorStatus._BAD_REQUEST.getReasonHttpStatus();
+
+        // toBuilder() 대신, 새로운 빌더로 복제 + 메시지만 교체
+        ErrorReasonDTO body = ErrorReasonDTO.builder()
+                .httpStatus(base.getHttpStatus())
+                .isSuccess(base.getIsSuccess())
+                .code(base.getCode())
+                .message(ex.getMessage())
+                .build();
+
+        // 400 Bad Request 응답
+        return ResponseEntity
+                .badRequest()
+                .body(body);
     }
 
     @Override
@@ -116,4 +136,5 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 request
         );
     }
+
 }
