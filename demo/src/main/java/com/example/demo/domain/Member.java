@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import com.example.demo.domain.common.BaseEntity;
 import com.example.demo.domain.enums.Gender;
 import com.example.demo.domain.enums.MemberStatus;
+import com.example.demo.domain.enums.Role;
 import com.example.demo.domain.enums.SocialType;
 import com.example.demo.domain.mapping.MemberAgree;
 import com.example.demo.domain.mapping.MemberMission;
@@ -50,8 +51,19 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    //    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String email;
+
+    //10주차 추가
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 
     @ColumnDefault("0")
     private Integer point;

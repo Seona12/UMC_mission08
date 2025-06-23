@@ -12,6 +12,7 @@ import com.example.demo.repository.MemberRepository;
 import com.example.demo.web.dto.MemberRequestDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +26,17 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     private final FoodCategoryRepository foodCategoryRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
     public Member joinMember(MemberRequestDTO.JoinDto request) {
 
+
         Member newMember = MemberConverter.toMember(request);
+
+        newMember.encodePassword(passwordEncoder.encode(request.getPassword()));
+
         List<foodCategory> foodCategoryList = request.getPreferCategory().stream()
                 .map(category -> {
                     return foodCategoryRepository.findById(category).orElseThrow(() -> new FoodCategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND));
